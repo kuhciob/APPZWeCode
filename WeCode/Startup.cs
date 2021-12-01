@@ -29,6 +29,8 @@ namespace WeCode
             services.AddControllers();
             services.AddDbContext<APPZWeCodeContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("APPZWeCodeDatabase")));
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +39,7 @@ namespace WeCode
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
             }
 
             app.UseHttpsRedirection();
@@ -49,6 +52,9 @@ namespace WeCode
             {
                 endpoints.MapControllers();
             });
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
         }
     }
 }

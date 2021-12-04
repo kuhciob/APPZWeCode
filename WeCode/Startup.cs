@@ -9,7 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace WeCode
@@ -30,7 +32,14 @@ namespace WeCode
             services.AddDbContext<APPZWeCodeContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("APPZWeCodeDatabase")));
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c => 
+            {
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

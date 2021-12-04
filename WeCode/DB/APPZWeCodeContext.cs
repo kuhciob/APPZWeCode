@@ -41,7 +41,7 @@ namespace WeCode
             {
                 entity.ToTable("ActualResult");
 
-                entity.Property(e => e.ActualResultId).ValueGeneratedNever();
+                //entity.Property(e => e.ActualResultId).ValueGeneratedNever();
 
                 entity.HasOne(d => d.CodeBlock)
                     .WithMany(p => p.ActualResults)
@@ -58,7 +58,7 @@ namespace WeCode
             {
                 entity.ToTable("CodeBlock");
 
-                entity.Property(e => e.CodeBlockId).ValueGeneratedNever();
+                //entity.Property(e => e.CodeBlockId).ValueGeneratedNever();
 
                 entity.Property(e => e.Code)
                     .HasMaxLength(200)
@@ -69,7 +69,7 @@ namespace WeCode
             {
                 entity.ToTable("ExpectedResult");
 
-                entity.Property(e => e.ExpectedResultId).ValueGeneratedNever();
+                //entity.Property(e => e.ExpectedResultId).ValueGeneratedNever();
 
                 entity.HasOne(d => d.CodeBlock)
                     .WithMany(p => p.ExpectedResults)
@@ -86,7 +86,7 @@ namespace WeCode
             {
                 entity.ToTable("Role");
 
-                entity.Property(e => e.RoleId).ValueGeneratedNever();
+                //entity.Property(e => e.RoleId).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
@@ -97,7 +97,7 @@ namespace WeCode
             {
                 entity.ToTable("Task");
 
-                entity.Property(e => e.TaskId).ValueGeneratedNever();
+                //entity.Property(e => e.TaskId).ValueGeneratedNever();
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(200)
@@ -117,7 +117,7 @@ namespace WeCode
             {
                 entity.ToTable("TaskResult");
 
-                entity.Property(e => e.TaskResultId).ValueGeneratedNever();
+                //entity.Property(e => e.TaskResultId).ValueGeneratedNever();
 
                 entity.Property(e => e.EndTime).HasColumnType("datetime");
 
@@ -138,7 +138,7 @@ namespace WeCode
             {
                 entity.ToTable("User");
 
-                entity.Property(e => e.UserId).ValueGeneratedNever();
+                //entity.Property(e => e.UserId).ValueGeneratedNever();
 
                 entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
 

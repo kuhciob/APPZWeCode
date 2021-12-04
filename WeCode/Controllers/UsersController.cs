@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WeCode;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace WeCode.Controllers
 {
@@ -20,6 +25,76 @@ namespace WeCode.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// блять впадлу робити ДТОшки, тому з ріквесту непотрібні параметри просто видаляйте
+        /// </summary>
+        /// <remarks>
+        /// "ХОРОШИЙ РІКВЕСТ":
+        ///     POST /signup
+        ///     {
+        ///         "roleId": 2, 
+        ///         "name": "Ivan",
+        ///         "surname": "Boichuk",
+        ///         "email": "name@email",
+        ///         "dateOfBirth": "2021-12-04T08:15:16.601Z",
+        ///         "password": "string",
+        ///     }
+        /// </remarks>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost("signup")]
+        public async Task<ActionResult<User>> SignUpUser(User user)
+        {
+            if (_context.Users.Any(u => u.Email == user.Email))
+            {
+                return Conflict();
+            }
+            _context.Users.Add(user);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (UserExists(user.UserId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+        }
+        [HttpPost("signin")]
+        public async Task<ActionResult<User>> SignInUser(string email, string password)
+        {
+
+            
+            try
+            {
+                if (_context.Users.Any(u => u.Email == email))
+                {
+                    var user = _context.Users.FirstOrDefault(u => u.Email == email);
+                    if (user.Password == password)
+                    {
+                        return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+                    }
+                    else
+                    {
+                        return Unauthorized("Wrong password");
+                    }
+                }
+            }
+            catch (DbUpdateException)
+            {
+                    throw;
+            }
+            return NotFound();
+
+        }
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -44,6 +119,12 @@ namespace WeCode.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Edit User
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -76,28 +157,28 @@ namespace WeCode.Controllers
         // POST: api/Users
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.Users.Add(user);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (UserExists(user.UserId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //[HttpPost]
+        //public async Task<ActionResult<User>> PostUser(User user)
+        //{
+        //    _context.Users.Add(user);
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (UserExists(user.UserId))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
-        }
+        //    return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+        //}
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -12,6 +13,7 @@ namespace WeCode
             TaskResults = new HashSet<TaskResult>();
             Tasks = new HashSet<Task>();
         }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public int UserId { get; set; }
         public int RoleId { get; set; }
@@ -24,5 +26,7 @@ namespace WeCode
         public virtual Role Role { get; set; }
         public virtual ICollection<TaskResult> TaskResults { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+
+
     }
 }

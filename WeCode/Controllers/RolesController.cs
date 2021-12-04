@@ -76,6 +76,11 @@ namespace WeCode.Controllers
         // POST: api/Roles
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Role>> PostRole(Role role)
         {

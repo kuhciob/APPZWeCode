@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -11,6 +12,7 @@ namespace WeCode
         {
             ActualResults = new HashSet<ActualResult>();
         }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public int TaskResultId { get; set; }
         public int? TaskId { get; set; }

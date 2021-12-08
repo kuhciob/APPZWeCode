@@ -40,6 +40,18 @@ namespace WeCode
                 c.IncludeXmlComments(xmlPath);
 
             });
+
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddDefaultPolicy(
+            //        builder =>
+            //        {
+            //            builder.AllowAnyOrigin().AllowAnyHeader()
+            //            .AllowAnyMethod()
+            //            .AllowCredentials();
+            //        });
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +68,10 @@ namespace WeCode
             app.UseRouting();
 
             app.UseAuthorization();
+            //app.UseCors(o => o.AllowAnyOrigin().AllowAnyHeader()
+            //.AllowAnyMethod()
+            //.AllowCredentials());
+            //app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

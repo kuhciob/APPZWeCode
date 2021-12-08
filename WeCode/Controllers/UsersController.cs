@@ -99,8 +99,10 @@ namespace WeCode.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.
+                ToListAsync();
         }
+
 
         // GET: api/Users/5
         [HttpGet("{id}")]
@@ -115,7 +117,74 @@ namespace WeCode.Controllers
 
             return user;
         }
+ 
+        /// <summary>
+        /// Return Tasks created by User
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Tasks/{id}")]
+        public async Task<ActionResult<IEnumerable<Task>>> GetUserTasks(int id)
+        {
+            return await _context.Tasks.
+                Where(u => u.CreatedBy == id)
+                .ToListAsync();
+        }
+        // GET: api/Users/5
+        /// <summary>
+        /// Return Tasks created by User
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("TaskResults/{id}")]
+        public async Task<ActionResult<IEnumerable<TaskResult>>> GetUserTaskResults(int id)
+        {
+            return await _context.TaskResults.
+                Where(u => u.SubmittedBy == id)
+                .ToListAsync();
+        }
+        // GET: api/Users/5
+        /// <summary>
+        /// Return Tasks created by User
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("Stat/{id}")]
+        public async Task<Statistic> GetUserStat(int id)
+        {
+            var taskRes =  await _context.TaskResults.
+                Where(u => u.SubmittedBy == id)
+                .ToListAsync();
 
+            int? numberOfCompTasks = 0;
+            int? numberOfSuccessTasks = 0;
+            int? averMark = 0;
+            if (taskRes != null)
+            {
+                numberOfCompTasks = taskRes?.Count;
+                numberOfSuccessTasks = taskRes.
+                    Where(t => t.Score == 100).
+                    Count();
+                if(numberOfCompTasks != 0)
+                {
+                    averMark = (int)taskRes.Sum(t => t.Score) / numberOfCompTasks;
+                }
+            }
+
+            return new Statistic() 
+            { 
+                NumberOfCompTasks  =  numberOfCompTasks ,
+                NumberOfSuccessTasks = numberOfSuccessTasks,
+                AverMark = averMark
+            };
+
+        }
+        public class Statistic
+        {
+            public int? NumberOfCompTasks { get; set; }
+            public int? NumberOfSuccessTasks { get; set; }
+            public int? AverMark { get; set; }
+        }
         // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

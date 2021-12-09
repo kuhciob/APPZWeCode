@@ -10,6 +10,6 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>WeCode.APPZWeCodeContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
-    <NameOfLastUsedPublishProfile>APPZWeCode - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>wecode12345 - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

@@ -14,7 +14,6 @@ namespace WeCode
             TaskResults = new HashSet<TaskResult>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [System.Text.Json.Serialization.JsonIgnore]
         public int TaskId { get; set; }
         public string Description { get; set; }
         public string Title { get; set; }
@@ -22,9 +21,7 @@ namespace WeCode
         public int? CreatedBy { get; set; }
 
         public virtual User CreatedByNavigation { get; set; }
-        //[System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<ExpectedResult> ExpectedResults { get; set; }
-        //[System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<TaskResult> TaskResults { get; set; }
     }
 }

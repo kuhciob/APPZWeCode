@@ -179,6 +179,30 @@ namespace WeCode.Controllers
             };
 
         }
+        [HttpGet("AdminStat/{id}")]
+        public async Task<AdminStatistic> GetAdminStat(int id)
+        {
+            var taskRes = await _context.Tasks.
+                Where(u => u.CreatedBy == id)
+                .ToListAsync();
+
+            int? createtTasks = 0;
+           
+            if (taskRes != null)
+            {
+                createtTasks = taskRes?.Count;
+            }
+
+            return new AdminStatistic()
+            {
+                CreatetTasks = createtTasks
+            };
+
+        }
+        public class AdminStatistic
+        {
+            public int? CreatetTasks { get; set; }
+        }
         public class Statistic
         {
             public int? NumberOfCompTasks { get; set; }
